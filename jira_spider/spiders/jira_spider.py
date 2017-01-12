@@ -3,6 +3,7 @@ import scrapy
 from scrapy.selector import Selector
 from scrapy.http import Request,FormRequest
 import sys
+from scrapy.utils.response import open_in_browser
 
 
 reload(sys)
@@ -40,8 +41,11 @@ class DmozSpider(scrapy.Spider):
             yield self.make_requests_from_url(url)
 
     def parse(self, response):
+        print "parse......................"
         hxs = Selector(response)
         items = []
+
+        open_in_browser(response)
 
         divs = hxs.xpath('//div[@class="bbb-gp-gitviewer-files-list__row"]')
 
