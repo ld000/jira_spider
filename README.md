@@ -11,5 +11,5 @@ Scrapy
 # 用法
 
 ```python
-scrapy crawl spider名
+scrapy crawl jira
 ```
