@@ -26,8 +26,8 @@ class DmozSpider(scrapy.Spider):
         print("start..................")
         return [FormRequest(
             "http://jira.k2data.com.cn/login.jsp",
-            formdata={'os_username': '',
-                      'os_password': ''
+            formdata={'os_username': 'lidong',
+                      'os_password': 'lidong0220'
                       },
             headers={
                 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36'},
@@ -36,7 +36,7 @@ class DmozSpider(scrapy.Spider):
         )]
 
     def after_login(self, response):
-        print "callback......................"
+        # print "callback......................"
         for url in self.start_urls:
             yield self.make_requests_from_url(url)
 
@@ -45,8 +45,11 @@ class DmozSpider(scrapy.Spider):
         hxs = Selector(response)
         items = []
 
-        open_in_browser(response)
+        # open_in_browser(response)
 
-        divs = hxs.xpath('//div[@class="bbb-gp-gitviewer-files-list__row"]')
+        # 所有文件链接
+        divs = hxs.xpath('//div[@class="bbb-gp-gitviewer-files-list__cell-wrapper"]/a[@class!="gp-view-commit-diff"]')\
+            .extract()
 
+        print "div..........................."
         print(divs)
