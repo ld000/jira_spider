@@ -4,6 +4,7 @@ from scrapy.selector import Selector
 from scrapy.http import Request,FormRequest
 import sys
 from scrapy.utils.response import open_in_browser
+from scrapy_splash import SplashRequest
 
 
 reload(sys)
@@ -38,14 +39,14 @@ class DmozSpider(scrapy.Spider):
     def after_login(self, response):
         # print "callback......................"
         for url in self.start_urls:
-            yield self.make_requests_from_url(url)
+            yield SplashRequest(url, self.parse, args={'wait': 0.5})
 
     def parse(self, response):
         print "parse......................"
         hxs = Selector(response)
         items = []
 
-        # open_in_browser(response)
+        open_in_browser(response)
 
         # 所有文件链接
         divs = hxs.xpath('//div[@class="bbb-gp-gitviewer-files-list__cell-wrapper"]/a[@class!="gp-view-commit-diff"]')\
